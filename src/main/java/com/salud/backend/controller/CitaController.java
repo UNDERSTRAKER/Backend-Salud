@@ -3,7 +3,6 @@ package com.salud.backend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,20 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salud.backend.model.Cita;
+import com.salud.backend.model.Notificacion;
 import com.salud.backend.repository.CitaRepository;
+import com.salud.backend.repository.NotificacionRepository;
 
 @RestController
 @RequestMapping("/api/citas")
 public class CitaController {
 
-    private final CitaRepository citaRepository;
+    @Autowired
+    private CitaRepository citaRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    public CitaController(CitaRepository citaRepository) {
-        this.citaRepository = citaRepository;
-    }
+    private NotificacionRepository notificacionRepository; // AQUÍ VA
 
     @GetMapping
     public List<Cita> listarCitas() {
@@ -33,9 +31,20 @@ public class CitaController {
 
     @PostMapping
     public Cita crearCita(@RequestBody Cita cita) {
-        // Obtener el próximo ID desde la secuencia de Oracle
-        Long nuevoId = jdbcTemplate.queryForObject("SELECT CITA_SEQ.NEXTVAL FROM DUAL", Long.class);
-        cita.setId_cita(nuevoId);
-        return citaRepository.save(cita);
+        Cita nuevaCita = citaRepository.save(cita);
+
+        // Crear notificación
+        String estado = Math.random() < 0.5 ? "pendiente" : "confirmada";
+        String mensaje = "Tu cita para el día " + cita.getFecha() + " a las " + cita.getHora() +
+                         " ha sido registrada con estado: " + estado + ".";
+
+        Notificacion notificacion = new Notificacion();
+        notificacion.setId_usuario(cita.getPaciente().getId_usuario());
+        notificacion.setMensaje(mensaje);
+        notificacion.setEstado("no_leida");
+
+        notificacionRepository.save(notificacion);
+
+        return nuevaCita;
     }
 }

@@ -28,6 +28,9 @@ public class Notificacion implements Serializable {
     @Column(name = "fecha_envio")
     private Date fechaEnvio = new Date();
 
+    @Column(name = "id_usuario")
+    private Long id_usuario;
+
     @Column(length = 20)
     private String estado = "no_leida";
 
@@ -77,5 +80,13 @@ public class Notificacion implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Long getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 }
