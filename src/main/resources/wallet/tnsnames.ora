@@ -1,0 +1,12 @@
+saluddb_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-bogota-1.oraclecloud.com))(connect_data=(service_name=g28e79aa127345d_saluddb_high.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.sa-bogota-1.oraclecloud.com, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+saluddb_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-bogota-1.oraclecloud.com))(connect_data=(service_name=g28e79aa127345d_saluddb_low.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.sa-bogota-1.oraclecloud.com, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+saluddb_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-bogota-1.oraclecloud.com))(connect_data=(service_name=g28e79aa127345d_saluddb_medium.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.sa-bogota-1.oraclecloud.com, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+saluddb_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-bogota-1.oraclecloud.com))(connect_data=(service_name=g28e79aa127345d_saluddb_tp.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.sa-bogota-1.oraclecloud.com, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+saluddb_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-bogota-1.oraclecloud.com))(connect_data=(service_name=g28e79aa127345d_saluddb_tpurgent.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.sa-bogota-1.oraclecloud.com, O=Oracle Corporation, L=Redwood City, ST=California, C=US")))
+
+
+
