@@ -15,7 +15,7 @@ import jakarta.persistence.TemporalType;
 public class Paciente implements Serializable {
 
     @Id
-    private Long id_usuario;  // Mismo ID que en Usuario
+    private Long id_usuario; 
 
     private String direccion;
 

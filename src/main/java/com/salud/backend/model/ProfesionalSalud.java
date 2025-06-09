@@ -8,10 +8,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ProfesionalSalud")
+@Table(name = "PROFESIONALSALUD")
 public class ProfesionalSalud {
 
     @Id
@@ -22,14 +23,14 @@ public class ProfesionalSalud {
     private String registroProfesional;
 
     // Relación con Especialidad
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_especialidad", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Especialidad especialidad;
 
-    // Relación con Usuario para obtener nombre y apellidos
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario", insertable = false, updatable = false)
+    // Relación con Usuario
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", insertable = false, updatable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario usuario;
 
