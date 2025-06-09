@@ -25,13 +25,13 @@ public class ProfesionalSalud {
     // Relación con Especialidad
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_especialidad", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Especialidad especialidad;
 
     // Relación con Usuario
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", insertable = false, updatable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Usuario usuario;
 
     // Getters y Setters
