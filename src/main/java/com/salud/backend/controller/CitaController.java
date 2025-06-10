@@ -13,6 +13,8 @@ import com.salud.backend.model.Cita;
 import com.salud.backend.model.Notificacion;
 import com.salud.backend.repository.CitaRepository;
 import com.salud.backend.repository.NotificacionRepository;
+import com.salud.backend.repository.PacienteRepository;
+import com.salud.backend.repository.ProfesionalSaludRepository;
 
 @RestController
 @RequestMapping("/api/citas")
@@ -20,10 +22,19 @@ public class CitaController {
 
     private final CitaRepository citaRepository;
     private final NotificacionRepository notificacionRepository;
+    private final PacienteRepository pacienteRepository;
+    private final ProfesionalSaludRepository profesionalSaludRepository;
 
-    public CitaController(CitaRepository citaRepository, NotificacionRepository notificacionRepository) {
+    public CitaController(
+        CitaRepository citaRepository,
+        NotificacionRepository notificacionRepository,
+        PacienteRepository pacienteRepository,
+        ProfesionalSaludRepository profesionalSaludRepository
+    ) {
         this.citaRepository = citaRepository;
         this.notificacionRepository = notificacionRepository;
+        this.pacienteRepository = pacienteRepository;
+        this.profesionalSaludRepository = profesionalSaludRepository;
     }
 
     @GetMapping
@@ -33,7 +44,14 @@ public class CitaController {
 
     @PostMapping
     public Cita crearCita(@RequestBody Cita cita) {
-        // Guardar la cita
+        // Buscar entidades completas por ID antes de guardar
+        if (cita.getPaciente() != null && cita.getPaciente().getId_usuario() != null) {
+            cita.setPaciente(pacienteRepository.findById(cita.getPaciente().getId_usuario()).orElse(null));
+        }
+        if (cita.getProfesional() != null && cita.getProfesional().getId_usuario() != null) {
+            cita.setProfesional(profesionalSaludRepository.findById(cita.getProfesional().getId_usuario()).orElse(null));
+        }
+
         Cita nuevaCita = citaRepository.save(cita);
 
         // Crear notificación aleatoria
@@ -41,7 +59,7 @@ public class CitaController {
         Notificacion notificacion = new Notificacion();
         notificacion.setMensaje("Su cita fue registrada y está " + estado + ".");
         notificacion.setEstado("no_leida");
-        notificacion.setUsuario(cita.getPaciente().getUsuario());
+        notificacion.setUsuario(nuevaCita.getPaciente().getUsuario());
 
         notificacionRepository.save(notificacion);
 
