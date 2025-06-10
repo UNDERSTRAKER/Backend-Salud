@@ -3,6 +3,7 @@ package com.salud.backend.controller;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,10 @@ import com.salud.backend.repository.NotificacionRepository;
 import com.salud.backend.repository.PacienteRepository;
 import com.salud.backend.repository.ProfesionalSaludRepository;
 
+@CrossOrigin(origins = {
+    "https://frontend-salud.vercel.app",
+    "https://frontend-salud-p2yzzida8-felipe-padillas-projects-3e2d6501.vercel.app"
+})
 @RestController
 @RequestMapping("/api/citas")
 public class CitaController {
