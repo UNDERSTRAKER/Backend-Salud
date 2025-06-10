@@ -2,7 +2,6 @@ package com.salud.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +14,20 @@ import com.salud.backend.repository.NotificacionRepository;
 @RequestMapping("/api/notificaciones")
 public class NotificacionController {
 
-    @Autowired
-    private NotificacionRepository notificacionRepository;
+    private final NotificacionRepository notificacionRepository;
 
+    public NotificacionController(NotificacionRepository notificacionRepository) {
+        this.notificacionRepository = notificacionRepository;
+    }
+
+    @GetMapping
+    public List<Notificacion> listarTodas() {
+        return notificacionRepository.findAll();
+    }
+
+    // Este otro es el filtrado por usuario
     @GetMapping("/usuario/{id_usuario}")
     public List<Notificacion> obtenerPorUsuario(@PathVariable Long id_usuario) {
-        return notificacionRepository.findByIdUsuario(id_usuario);
+        return notificacionRepository.buscarPorIdUsuario(id_usuario);
     }
 }
