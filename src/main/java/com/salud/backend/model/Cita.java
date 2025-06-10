@@ -1,10 +1,10 @@
 package com.salud.backend.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,9 +14,10 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "Cita")
-public class Cita implements Serializable {
+public class Cita {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_cita;
 
     @Temporal(TemporalType.DATE)
@@ -24,11 +25,9 @@ public class Cita implements Serializable {
 
     private String hora;
 
-    @Column(length = 500)
-    private String motivo;
-
-    @Column(length = 20)
     private String estado;
+
+    private String motivo;
 
     @ManyToOne
     @JoinColumn(name = "id_paciente", nullable = false)
@@ -38,26 +37,60 @@ public class Cita implements Serializable {
     @JoinColumn(name = "id_profesional", nullable = false)
     private ProfesionalSalud profesional;
 
-    // Getters y Setters
+    // Getters y setters
+    public Long getId_cita() {
+        return id_cita;
+    }
 
-    public Long getId_cita() { return id_cita; }
-    public void setId_cita(Long id_cita) { this.id_cita = id_cita; }
+    public void setId_cita(Long id_cita) {
+        this.id_cita = id_cita;
+    }
 
-    public Date getFecha() { return fecha; }
-    public void setFecha(Date fecha) { this.fecha = fecha; }
+    public Date getFecha() {
+        return fecha;
+    }
 
-    public String getHora() { return hora; }
-    public void setHora(String hora) { this.hora = hora; }
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-    public String getMotivo() { return motivo; }
-    public void setMotivo(String motivo) { this.motivo = motivo; }
+    public String getHora() {
+        return hora;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
 
-    public Paciente getPaciente() { return paciente; }
-    public void setPaciente(Paciente paciente) { this.paciente = paciente; }
+    public String getEstado() {
+        return estado;
+    }
 
-    public ProfesionalSalud getProfesional() { return profesional; }
-    public void setProfesional(ProfesionalSalud profesional) { this.profesional = profesional; }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public ProfesionalSalud getProfesional() {
+        return profesional;
+    }
+
+    public void setProfesional(ProfesionalSalud profesional) {
+        this.profesional = profesional;
+    }
 }

@@ -1,44 +1,35 @@
 package com.salud.backend.model;
 
-import java.io.Serializable;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "Notificacion")
-public class Notificacion implements Serializable {
+public class Notificacion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_notificacion;
 
     private String mensaje;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "fecha_envio")
-    private Date fechaEnvio = new Date();
+    private Date fecha_envio = new Date();
 
-    @Column(length = 20)
-    private String estado = "no_leida";
+    @Column(name = "id_usuario")
+    private Long id_usuario;
 
-    // Relación con Usuario
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", insertable = false, updatable = false)
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    private Usuario usuario;
+    private String estado;
 
     // Getters y Setters
-
     public Long getId_notificacion() {
         return id_notificacion;
     }
@@ -55,12 +46,20 @@ public class Notificacion implements Serializable {
         this.mensaje = mensaje;
     }
 
-    public Date getFechaEnvio() {
-        return fechaEnvio;
+    public Date getFecha_envio() {
+        return fecha_envio;
     }
 
-    public void setFechaEnvio(Date fechaEnvio) {
-        this.fechaEnvio = fechaEnvio;
+    public void setFecha_envio(Date fecha_envio) {
+        this.fecha_envio = fecha_envio;
+    }
+
+    public Long getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getEstado() {
@@ -69,13 +68,5 @@ public class Notificacion implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }

@@ -1,30 +1,24 @@
 package com.salud.backend.controller;
 
-import java.util.List;
+import com.salud.backend.model.Cita;
+import com.salud.backend.model.Notificacion;
+import com.salud.backend.repository.CitaRepository;
+import com.salud.backend.repository.NotificacionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.salud.backend.model.Cita;
-import com.salud.backend.repository.CitaRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/citas")
 public class CitaController {
 
-    private final CitaRepository citaRepository;
+    @Autowired
+    private CitaRepository citaRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    public CitaController(CitaRepository citaRepository) {
-        this.citaRepository = citaRepository;
-    }
+    private NotificacionRepository notificacionRepository;
 
     @GetMapping
     public List<Cita> listarCitas() {
@@ -33,9 +27,27 @@ public class CitaController {
 
     @PostMapping
     public Cita crearCita(@RequestBody Cita cita) {
-        // Obtener el próximo ID desde la secuencia de Oracle
-        Long nuevoId = jdbcTemplate.queryForObject("SELECT CITA_SEQ.NEXTVAL FROM DUAL", Long.class);
-        cita.setId_cita(nuevoId);
-        return citaRepository.save(cita);
+        // Guardar la cita en la base de datos
+        Cita nuevaCita = citaRepository.save(cita);
+
+        // Elegir aleatoriamente el estado
+        String estadoAleatorio = Math.random() < 0.5 ? "pendiente" : "confirmada";
+        nuevaCita.setEstado(estadoAleatorio);
+        citaRepository.save(nuevaCita); // Actualizar el estado
+
+        // Crear mensaje de notificación
+        String mensaje = "Tu cita para el día " + nuevaCita.getFecha() +
+                         " a las " + nuevaCita.getHora() +
+                         " ha sido registrada con estado: " + estadoAleatorio + ".";
+
+        // Crear la notificación
+        Notificacion notificacion = new Notificacion();
+        notificacion.setId_usuario(nuevaCita.getPaciente().getId_usuario());
+        notificacion.setMensaje(mensaje);
+        notificacion.setEstado("no_leida");
+
+        notificacionRepository.save(notificacion);
+
+        return nuevaCita;
     }
 }
